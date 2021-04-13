@@ -21,3 +21,6 @@ U
 %src/com/ex/publications/Readable.java,3\f\3fdd95571f723ba03bc56836bde7b0e9a71c1e29
 `
 0src/com/ex/publications/ReadablePublication.java,b\a\ba15874e9951d13e2935d2d189c381060522ab29
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
