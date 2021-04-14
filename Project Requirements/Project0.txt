@@ -39,4 +39,4 @@ The application will be created using
     Java 1.8
     JUnit
     log4j
-    PostgreSQL (phase 2)
+    MongoDB(phase 2)
