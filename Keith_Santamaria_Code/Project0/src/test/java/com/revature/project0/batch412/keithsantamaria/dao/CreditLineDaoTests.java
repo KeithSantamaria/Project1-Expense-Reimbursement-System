@@ -28,6 +28,10 @@ public class CreditLineDaoTests {
 		);
 	}
 
+	@After
+	public void afterEachTest(){
+	}
+
 	@Test
 	public void shouldConvertToJson () {
 		JSONObject expectedJson = new JSONObject();

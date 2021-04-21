@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.revature.project0.batch412.keithsantamaria.screens.*;
 import org.bson.Document;
 
 import java.util.Arrays;
@@ -16,7 +17,12 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		System.out.println(UUID.randomUUID());
+//		System.out.println(UUID.randomUUID());
+		ScreenManager myManager = new ScreenManager();
+		myManager.setCurrentScreen(new WelcomeScreen());
+		myManager.runCurrentScreen();
+		myManager.setCurrentScreen(new LoginAsCustomerScreen());
+		myManager.runCurrentScreen();
 
 	}
 }
