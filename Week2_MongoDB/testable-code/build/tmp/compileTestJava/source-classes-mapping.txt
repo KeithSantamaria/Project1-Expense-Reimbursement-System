@@ -1,0 +1,8 @@
+com/ex/tests/mocks/MockDao.java
+ com.ex.tests.mocks.MockDao
+com/ex/tests/BookModelTests.java
+ com.ex.tests.BookModelTests
+com/ex/tests/ServiceTests.java
+ com.ex.tests.ServiceTests
+com/ex/tests/RectangleTests.java
+ com.ex.tests.RectangleTests
