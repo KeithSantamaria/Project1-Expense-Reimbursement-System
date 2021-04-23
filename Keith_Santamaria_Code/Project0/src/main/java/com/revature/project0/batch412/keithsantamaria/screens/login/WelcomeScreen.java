@@ -1,9 +1,11 @@
-package com.revature.project0.batch412.keithsantamaria.screens;
+package com.revature.project0.batch412.keithsantamaria.screens.login;
+
+import com.revature.project0.batch412.keithsantamaria.screens.Screen;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WelcomeScreen extends Screen{
+public class WelcomeScreen extends Screen {
 
 	public WelcomeScreen(){
 		super();

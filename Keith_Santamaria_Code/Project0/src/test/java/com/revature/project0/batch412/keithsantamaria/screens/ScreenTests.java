@@ -1,5 +1,6 @@
 package com.revature.project0.batch412.keithsantamaria.screens;
 
+import com.revature.project0.batch412.keithsantamaria.screens.login.WelcomeScreen;
 import org.junit.*;
 
 public class ScreenTests {

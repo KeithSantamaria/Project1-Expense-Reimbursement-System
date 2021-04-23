@@ -1,16 +1,9 @@
 package com.revature.project0.batch412.keithsantamaria;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.revature.project0.batch412.keithsantamaria.screens.*;
-import org.bson.Document;
-
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.UUID;
+import com.revature.project0.batch412.keithsantamaria.screens.login.LoginAsCustomerScreen;
+import com.revature.project0.batch412.keithsantamaria.screens.login.LoginAsEmployeeScreen;
+import com.revature.project0.batch412.keithsantamaria.screens.login.WelcomeScreen;
 
 
 public class Main {
@@ -23,6 +16,9 @@ public class Main {
 		myManager.runCurrentScreen();
 		myManager.setCurrentScreen(new LoginAsCustomerScreen());
 		myManager.runCurrentScreen();
+		myManager.setCurrentScreen(new LoginAsEmployeeScreen());
+		myManager.runCurrentScreen();
+
 
 	}
 }

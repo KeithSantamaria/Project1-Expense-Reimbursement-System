@@ -15,8 +15,6 @@ public class ScreenManager {
 		System.out.println("---------------");
 		System.out.println();
 		this.currentScreen.show();
-		System.out.println();
-		System.out.println("---------------");
 
-	};
+	}
 }
