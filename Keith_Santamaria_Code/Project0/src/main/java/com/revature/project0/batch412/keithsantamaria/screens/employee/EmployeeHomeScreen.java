@@ -8,7 +8,8 @@ public class EmployeeHomeScreen extends Screen {
 		this.name = name;
 		this.title = "Welcome " + this.name + "!";
 		this.menuOptions.add("1. Create new user");
-		this.menuOptions.add("2. Review pending credit lines");
-		this.menuOptions.add("3. Exit");
+		this.menuOptions.add("2. Open new account for a customer");
+		this.menuOptions.add("3. Review pending credit lines");
+		this.menuOptions.add("4. Exit and Log out");
 	}
 }

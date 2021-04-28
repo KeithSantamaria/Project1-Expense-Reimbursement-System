@@ -6,7 +6,7 @@ public class LoginAsEmployeeScreen extends Screen {
 	public LoginAsEmployeeScreen () {
 		super();
 		this.title = "Login as Employee";
-		this.contents.add("Enter your username and password. Enter \"exit\" to go back.");
+		this.contents.add("Enter your username and password. Enter \"back\" to go back.");
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.revature.project0.batch412.keithsantamaria.input;
 
+import java.util.Locale;
+
 public class CreditScoreScanner extends GenericScanner implements ICreditScoreInput{
 
 	private boolean isValidCreditScores(String input){
@@ -12,7 +14,9 @@ public class CreditScoreScanner extends GenericScanner implements ICreditScoreIn
 			}
 		}
 
-
+		if(input.toLowerCase(Locale.ROOT).equals("back")){
+			isValid = true;
+		}
 
 		return isValid;
 	}
