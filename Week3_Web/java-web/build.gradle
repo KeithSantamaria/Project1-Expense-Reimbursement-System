@@ -36,9 +36,15 @@ tasks.register("deploy", Copy) {
     dependsOn "war"
     def catalinaHome = System.getenv("CATALINA_HOME");
     def warName = war.archiveFileName.get()
+    println "${project.properties.get("test")}"
     if(catalinaHome == null) {
         throw new GradleException("Environment 'CATALINA_HOME' is not set")
     }
     from "$buildDir/libs/$warName"
     into "$catalinaHome/webapps"
+}
+
+tasks.register("deployTomcat") {
+    dependsOn "war"
+    
 }
