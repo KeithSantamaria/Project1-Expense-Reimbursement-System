@@ -1,0 +1,12 @@
+com/ex/Book.java
+ com.ex.Book
+com/ex/Repository.java
+ com.ex.Repository
+com/ex/Dao.java
+ com.ex.Dao
+com/ex/Rectangle.java
+ com.ex.Rectangle
+com/ex/Service.java
+ com.ex.Service
+com/ex/Main.java
+ com.ex.Main
