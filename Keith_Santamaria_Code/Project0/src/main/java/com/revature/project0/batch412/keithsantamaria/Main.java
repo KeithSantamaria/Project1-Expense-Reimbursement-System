@@ -8,21 +8,32 @@ import com.revature.project0.batch412.keithsantamaria.screens.*;
 import com.revature.project0.batch412.keithsantamaria.screens.login.LoginAsCustomerScreen;
 import com.revature.project0.batch412.keithsantamaria.screens.login.LoginAsEmployeeScreen;
 import com.revature.project0.batch412.keithsantamaria.screens.login.WelcomeScreen;
+import com.revature.project0.batch412.keithsantamaria.BankApp;
 
 import java.util.Scanner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 
 public class Main {
 
 	public static void main(String[] args) {
-
-		CreditScoreScanner testScanner = new CreditScoreScanner();
-		String result =testScanner.takeCreditScoreInput(">");
-		System.out.println(result);
-
+		BankApp myApp = new BankApp();
+		Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+		mongoLogger.setLevel(Level.FATAL);
+		BasicConfigurator.configure();
+		myApp.run();
 
 	}
 }
+
+//	one of my biggest grips with Java:
+//
+//		If I have a reference variable of type parent class and  I set it to an object of a child class, I cant use the child classes
+//
+//		My code looks so much more messy due to it
 
 //		Scanner testScanner = new Scanner(System.in);
 //		System.out.print("enter username >");
