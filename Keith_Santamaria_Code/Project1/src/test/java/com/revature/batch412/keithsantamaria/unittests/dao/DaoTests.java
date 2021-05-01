@@ -1,6 +1,8 @@
 package com.revature.batch412.keithsantamaria.unittests.dao;
 
 import com.revature.batch412.keithsantamaria.dao.ExampleDao;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -9,6 +11,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 public class DaoTests {
 	ExampleDao testDao;
@@ -33,14 +37,25 @@ public class DaoTests {
 	@Test
 	public void shouldCreateOneDocument(){
 		this.rootLogger.info("Starting \"shouldCreateOneDocument()\" test");
-		testDao.create();
+		this.testDao.create();
 		long newSize = testDao.getCollection().countDocuments();
 		long testDifference = newSize - this.collectionSize;
 		Assert.assertEquals("Collection size difference did not match expected value.",1,testDifference);
 	}
 
 	@Test
-	public void shouldUpdateOneDocument(){
-		System.out.println("blah");
+	public void shouldReadOneDocument(){
+		this.rootLogger.info("Starting \"shouldCreateOneDocument()\" test");
+		ObjectId id= new ObjectId("608b8513f17b1679fd68fc21");
+		Document docToTest = this.testDao.read(id);
+		Document expectedDoc = new Document("_id", id)
+				.append("name", "MongoDB")
+				.append("type", "database")
+				.append("count", 1)
+				.append("versions", Arrays.asList("v3.2", "v3.0", "v2.6"))
+				.append("info", new Document("x", 203).append("y", 102));
+		Assert.assertEquals("Expected read doucment to match example", expectedDoc, docToTest);
+
 	}
+
 }
