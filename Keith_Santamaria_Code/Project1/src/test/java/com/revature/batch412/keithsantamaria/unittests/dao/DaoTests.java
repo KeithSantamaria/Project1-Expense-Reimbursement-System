@@ -1,6 +1,7 @@
 package com.revature.batch412.keithsantamaria.unittests.dao;
 
 import com.revature.batch412.keithsantamaria.dao.ExampleDao;
+import com.revature.batch412.keithsantamaria.dao.MongoField;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.apache.log4j.BasicConfigurator;
@@ -55,6 +56,18 @@ public class DaoTests {
 				.append("versions", Arrays.asList("v3.2", "v3.0", "v2.6"))
 				.append("info", new Document("x", 203).append("y", 102));
 		Assert.assertEquals("Expected read doucment to match example", expectedDoc, docToTest);
+
+	}
+
+	@Test
+	public void shouldUpdateOneDocument(){
+		this.rootLogger.info("Starting \"shouldUpdateOneDocument()\" test");
+		ObjectId id = new ObjectId("608dc77ce3d312bc74a39a46");
+		this.testDao.update(id);
+	}
+
+	@Test
+	public void shouldDeleteOneDocument(){
 
 	}
 

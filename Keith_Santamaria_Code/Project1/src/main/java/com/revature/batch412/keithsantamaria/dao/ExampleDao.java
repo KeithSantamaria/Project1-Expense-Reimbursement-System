@@ -46,12 +46,26 @@ public class ExampleDao extends GenericDao{
 	}
 
 	@Override
-	public boolean update() {
-		return false;
+	public boolean update(ObjectId id) {
+		this.rootLogger.info("Updating example doc for mongoDb");
+		try {
+			this.collection.updateOne(
+					eq("_id", id),
+					set("count",1000)
+			);
+			return true;
+		}catch (Exception e){
+			return false;
+		}
+
 	}
 
 	@Override
-	public boolean delete() {
-		return false;
+	public void delete(ObjectId id) {
+		this.collection.deleteOne(
+				eq("_id", id)
+		);
+
+		return;
 	}
 }

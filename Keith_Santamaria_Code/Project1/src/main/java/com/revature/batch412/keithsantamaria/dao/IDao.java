@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 public interface IDao {
 	boolean create();
 	Document read(ObjectId id);
-	boolean update();
-	boolean delete();
+	boolean update(ObjectId id);
+	void delete(ObjectId id);
 
 }
