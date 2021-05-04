@@ -1,5 +1,6 @@
-.idea
-*.iml
-build/
-logs/
-.gradle/
+backend/.idea
+backend/*.iml
+backend/build/
+backend/logs/
+backend/.gradle/
+node_modules/
