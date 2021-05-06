@@ -6,7 +6,7 @@ import contactService from './services/ContactService';
 import './ContactsPage.css';
 import withModal from '../hocs/withModal';
 
-const NewContactForm = () => (
+export const NewContactForm = () => (
   <div style={{ height: '100%' }}>
     <form className="form">
       <div className="form-field">
