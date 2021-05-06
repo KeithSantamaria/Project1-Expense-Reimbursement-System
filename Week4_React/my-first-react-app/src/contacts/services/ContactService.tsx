@@ -1,26 +1,7 @@
 import Contact from '../models/Contact';
-
+import * as contactsRoll from '../contacts.json';
 class ContactService {
-  private _contacts: Contact[] = [
-    {
-      id: 1,
-      name: 'John Duet',
-      telephone: '123-456-7980',
-      active: false,
-    },
-    {
-      id: 2,
-      name: 'August Duet',
-      telephone: '123-456-7980',
-      active: true,
-    },
-    {
-      id: 3,
-      name: 'Karen',
-      telephone: '123-456-7980',
-      active: true,
-    },
-  ];
+  private _contacts: Contact[] = contactsRoll.contacts;
 
   get contacts(): Contact[] {
     return this._contacts;
@@ -36,6 +17,10 @@ class ContactService {
 
   getContact(id: number): Contact | undefined {
     return this._contacts.find((c) => c.id === id);
+  }
+
+  deleteContact(id: number): void {
+    this._contacts = this._contacts.filter((c) => c.id !== id);
   }
 }
 

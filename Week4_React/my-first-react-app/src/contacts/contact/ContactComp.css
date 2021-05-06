@@ -1,0 +1,66 @@
+.contact-card {
+  display: inline-block;
+  max-width: 300px;
+  min-width: 200px;
+  border: 1px solid #333;
+  background-color: whitesmoke;
+  height: 200px;
+  position: relative;
+}
+
+.contact-card:hover {
+  box-shadow: 2px 2px 3px 3px #555;
+}
+
+.contact-card-header {
+  font-size: 1.3em;
+  font-weight: bold;
+  padding: 10px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #333;
+}
+
+.contact-card-header a {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.contact-card-header a:visited {
+  color: black;
+}
+
+.contact-card-header a:hover {
+  color: #aaa;
+  position: relative;
+  left: 2px;
+}
+
+.contact-card-body {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.contact-card-footer {
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #333;
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.contact-info label {
+  margin-right: 10px;
+}

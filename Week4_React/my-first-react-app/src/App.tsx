@@ -4,14 +4,13 @@ import Counter from './Counter/Counter';
 import MyForm from './forms/MyForm';
 import HelloForm from './forms/HelloForm';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import ContactDetails from './contacts/contact-details/ContactDetails';
 
 function App() {
-  const history = useHistory();
   return (
     <div className="App">
       <Router>
-        <nav>
+        <nav className="Nav">
           <span>
             <Link to="/count">Counter</Link>
           </span>
@@ -36,9 +35,10 @@ function App() {
           <Route path="/hello">
             <HelloForm />
           </Route>
-          <Route path="/contacts">
+          <Route path="/contacts" exact>
             <ContactsPage />
           </Route>
+          <Route path={`/contacts/:contactId`} component={ContactDetails} />
         </Switch>
       </Router>
     </div>

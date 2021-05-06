@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axiox from 'axios';
 import axios from 'axios';
 
 const HelloForm = () => {

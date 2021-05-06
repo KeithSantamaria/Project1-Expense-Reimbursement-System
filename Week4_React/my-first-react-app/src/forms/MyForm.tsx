@@ -7,14 +7,6 @@ const MyForm = () => {
     password: '',
   });
 
-  const formSchema = {
-    name: {
-      required: true,
-      max: 20,
-      min: 3,
-    },
-  };
-
   const updateFormData = (event: any) => {
     const fieldName = event.target.name;
     const value = event.target.value;
