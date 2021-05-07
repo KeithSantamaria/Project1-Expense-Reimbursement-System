@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const HelloForm = () => {
   const [formData, setFormData] = useState({
@@ -9,15 +10,33 @@ const HelloForm = () => {
     setFormData({ name: event.target.value });
   };
 
+  const history = useHistory();
+
   const submitForm = (e: any) => {
     e.preventDefault();
+    // axios({
+    //   method: 'PUT',
+    //   url: '',
+    //   headers: {},
+    //   data: {},
+    //   params: {},
+    // });
+
+    // axios.request({});
+    // axios.put('', {});
+    // axios.get('');
+
     axios
       .post('http://localhost:8080/java-web/api/hello', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
-      .then((resp) => console.log(resp));
+      .then((resp) => {
+        const location = resp.headers["location"];
+        
+      });
+
     // fetch('http://localhost:8080/java-web/api/hello', {
     //   method: 'POST',
     //   headers: {

@@ -43,6 +43,7 @@ const ContactsPage = () => {
   }, []);
 
   const handleDelete = (contact: Contact) => {
+    //@ts-ignore
     contactService.deleteContact(contact.id);
     setContacts(contactService.contacts);
   };
