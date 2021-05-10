@@ -2,6 +2,8 @@ import {useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 
+import {logout} from '../helperfunctions/logout';
+
 const ManagerHomePage = (props) => {
 	const location = useLocation();
 	const history = useHistory();
@@ -16,7 +18,12 @@ const ManagerHomePage = (props) => {
 	},[location,history]);
 
 	return (
-		<h2>This is the Manager Home Page!</h2>
+		<div>
+			<h2>This is the Manager Home Page!</h2>
+			<button>View Requests</button>
+			<button>View Employees</button>
+			<button  onClick= {() => {logout(history)}} > LogOut</button>
+		</div>
 	)
 }
 
