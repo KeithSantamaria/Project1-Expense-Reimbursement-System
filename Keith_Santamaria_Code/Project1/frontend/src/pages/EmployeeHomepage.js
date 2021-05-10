@@ -2,6 +2,7 @@ import {useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 
+import {logout} from '../helperfunctions/logout';
 
 const EmployeeHomepage = (props) => {
 	const location = useLocation();
@@ -12,14 +13,14 @@ const EmployeeHomepage = (props) => {
 		console.log(location.state);
 		if (location.state === undefined){
 			alert("Access Denied: redirecting to login");
-			history.push("/")
+			history.replace("/")
 		}
 	},[location,history]);
 
 	return (
 		<div>
-			<p>This is the Employee Home Page!</p>
-
+			<h2>This is the Employee Home Page!</h2>
+			<button  onClick= {() => {logout(history)}} > LogOut</button>
 		</div>
 	)
 }

@@ -12,8 +12,6 @@ const LoginForm = (props) => {
 
 	const history = useHistory();
 
-	
-
 	useEffect( () => {
 		if(respData === null){
 			console.log("starting up page");
@@ -25,7 +23,7 @@ const LoginForm = (props) => {
 			console.log("Something Exists!");
 			if (respData.role === "MANAGER"){
 				alert("Successfully logged in as Manager!");
-				history.push({
+				history.replace({
 					pathname : "/manager",
 					state : {
 						userData: respData
@@ -34,7 +32,7 @@ const LoginForm = (props) => {
 			}
 			if (respData.role === "EMPLOYEE"){
 				alert("Successfully logged in as Employee!");
-				history.push({
+				history.replace({
 					pathname : "/employee",
 					state : {
 						userData: respData
