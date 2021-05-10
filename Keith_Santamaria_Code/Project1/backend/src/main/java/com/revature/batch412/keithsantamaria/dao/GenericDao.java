@@ -14,7 +14,7 @@ public abstract class GenericDao implements IDao{
 	protected MongoClient mongoClient;
 	protected MongoDatabase database;
 	protected MongoCollection<Document> collection;
-	protected 	org.apache.logging.log4j.Logger rootLogger = LogManager.getRootLogger();
+	protected org.apache.logging.log4j.Logger rootLogger = LogManager.getRootLogger();
 
 	public GenericDao(){
 		//Should connect to localhost on port 27017 by default

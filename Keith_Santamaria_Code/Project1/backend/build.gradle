@@ -21,6 +21,12 @@ dependencies {
 	implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
 	testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.29'
 	testImplementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.14.1'
+
+// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+	testImplementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+	compile "com.fasterxml.jackson.core:jackson-databind:2.10.3"
 }
 
 test {
