@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom'
+
+
 import {postAsEmployee, postAsManager} from '../helperfunctions/postlogins';
 
 const LoginForm = (props) => {
@@ -10,9 +12,11 @@ const LoginForm = (props) => {
 
 	const history = useHistory();
 
+	
+
 	useEffect( () => {
 		if(respData === null){
-			console.log("starting up page")
+			console.log("starting up page");
 			return;
 		}
 
@@ -20,6 +24,7 @@ const LoginForm = (props) => {
 		if (respData.loginStatus === true){
 			console.log("Something Exists!");
 			if (respData.role === "MANAGER"){
+				alert("Successfully logged in as Manager!");
 				history.push({
 					pathname : "/manager",
 					state : {
@@ -28,6 +33,7 @@ const LoginForm = (props) => {
 				});
 			}
 			if (respData.role === "EMPLOYEE"){
+				alert("Successfully logged in as Employee!");
 				history.push({
 					pathname : "/employee",
 					state : {
@@ -37,9 +43,9 @@ const LoginForm = (props) => {
 			}
 		}
 		else{
-			console.log("Login failed");
+			alert("Login Failed");
 		}
-	}, [respData])
+	}, [respData,history])
 
 
 
