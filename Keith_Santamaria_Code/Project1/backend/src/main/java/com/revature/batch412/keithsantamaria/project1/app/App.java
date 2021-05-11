@@ -9,14 +9,18 @@ import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class App {
-	String selectedLogin;
 	protected org.apache.logging.log4j.Logger rootLogger = LogManager.getRootLogger();
-	User currentUser;
+	private User currentUser;
 
-	public void App() {
-		this.selectedLogin = LoginState.PENDING.toString();
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
 	}
 
 	public boolean login(String username, String password, UserRoles role){
@@ -27,7 +31,40 @@ public class App {
 			return true;
 		}
 		return false;
-	};
+	}
+
+	public JSONObject parseReceivedData(String body) {
+		JSONParser parser = new JSONParser();
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = (JSONObject) parser.parse(body);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return jsonObject;
+	}
+
+	public JSONObject packageCurrentUser(){
+		rootLogger.info("Sending in user info, result : " +
+			"_id  " + this.currentUser.get_id() +
+			"username " + this.currentUser.getUsername() +
+			"password " + this.currentUser.getPassword() +
+			"role " + this.currentUser.getRole()
+		);
+		JSONObject jsonToSend = new JSONObject();
+		jsonToSend.put("_id", this.currentUser.get_id().toString() );
+		jsonToSend.put("username", this.currentUser.getUsername());
+		jsonToSend.put("password", this.currentUser.getPassword());
+		jsonToSend.put("role", this.currentUser.getRole().toString());
+		jsonToSend.put("loginStatus", true);
+		return jsonToSend;
+	}
+
+	public JSONObject packageFailedLogin(){
+		JSONObject jsonToSend = new JSONObject();
+		jsonToSend.put("loginStatus", false);
+		return jsonToSend;
+	}
 
 	public void run() {
 		Javalin myApp = Javalin.create(config -> {
@@ -36,63 +73,36 @@ public class App {
 
 		myApp.post("/loginmanager", ctx -> {
 			String body = ctx.body();
-			JSONParser parser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) parser.parse(body);
-			String username = jsonObject.get("username").toString();
-			String password = jsonObject.get("password").toString();
+			JSONObject clientInput = this.parseReceivedData(body);
+			String username = clientInput.get("username").toString();
+			String password = clientInput.get("password").toString();
 			boolean result = this.login(username,password, UserRoles.MANAGER);
 
+			JSONObject jsonToSend;
 			if(result){
-				rootLogger.info("Logging in as manager, result : " +
-					"_id  " + this.currentUser.get_id() +
-					"username " + this.currentUser.getUsername() +
-					"password " + this.currentUser.getPassword() +
-					"role " + this.currentUser.getRole()
-				);
-
-				JSONObject jsonToSend = new JSONObject();
-				jsonToSend.put("_id", this.currentUser.get_id().toString() );
-				jsonToSend.put("username", this.currentUser.getUsername());
-				jsonToSend.put("password", this.currentUser.getPassword());
-				jsonToSend.put("role", this.currentUser.getRole().toString());
-				jsonToSend.put("loginStatus", true);
-				ctx.result(jsonToSend.toJSONString());
+				jsonToSend = this.packageCurrentUser();
 			}
 			else{
-				JSONObject jsonToSend = new JSONObject();
-				jsonToSend.put("loginStatus", false);
-				ctx.result(jsonToSend.toJSONString());
+				jsonToSend = this.packageFailedLogin();
 			}
+			ctx.result(jsonToSend.toJSONString());
 			this.currentUser = null;
 		});
 
 		myApp.post("/loginemployee", ctx -> {
 			String body = ctx.body();
-			JSONParser parser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) parser.parse(body);
-			String username = jsonObject.get("username").toString();
-			String password = jsonObject.get("password").toString();
+			JSONObject clientInput = this.parseReceivedData(body);
+			String username = clientInput.get("username").toString();
+			String password = clientInput.get("password").toString();
 			boolean result = this.login(username,password, UserRoles.EMPLOYEE);
+			JSONObject jsonToSend;
 			if(result){
-				rootLogger.info("Logging in as manager, result : " +
-					"_id  " + this.currentUser.get_id() +
-					"username " + this.currentUser.getUsername() +
-					"password " + this.currentUser.getPassword() +
-					"role " + this.currentUser.getRole()
-				);
-				JSONObject jsonToSend = new JSONObject();
-				jsonToSend.put("_id", this.currentUser.get_id().toString() );
-				jsonToSend.put("username", this.currentUser.getUsername());
-				jsonToSend.put("password", this.currentUser.getPassword());
-				jsonToSend.put("role", this.currentUser.getRole().toString());
-				jsonToSend.put("loginStatus", true);
-				ctx.result(jsonToSend.toJSONString());
+				jsonToSend = this.packageCurrentUser();
 			}
 			else{
-				JSONObject jsonToSend = new JSONObject();
-				jsonToSend.put("loginStatus", false);
-				ctx.result(jsonToSend.toJSONString());
+				jsonToSend = this.packageFailedLogin();
 			}
+			ctx.result(jsonToSend.toJSONString());
 			this.currentUser = null;
 		});
 

@@ -22,6 +22,7 @@ const ManagerHomePage = (props) => {
 			<h2>This is the Manager Home Page!</h2>
 			<button>View Requests</button>
 			<button>View Employees</button>
+			<button>Create Employee</button>
 			<button  onClick= {() => {logout(history)}} > LogOut</button>
 		</div>
 	)
