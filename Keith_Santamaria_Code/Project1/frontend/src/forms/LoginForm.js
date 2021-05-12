@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {useHistory} from 'react-router-dom'
 
 
-import {postAsEmployee, postAsManager} from '../helperfunctions/postlogins';
+import {postAsEmployee, postAsManager} from '../helperfunctions/postFunctions';
 
 const LoginForm = (props) => {
 
@@ -66,7 +66,9 @@ const LoginForm = (props) => {
 
 	return(
 		<form onSubmit={handleSubmit}>
+			<span>Username: </span>
 			<input type = "text" name="username" placeholder = "Username" onChange = {e => setUserNameText(e.target.value)}/>
+			<span>Password: </span>
 			<input type = "password" name="password" placeholder ="Password" onChange = {e => setPasswordText(e.target.value)} />
 			<button>Submit</button>
 			<div>{userNameText}</div>

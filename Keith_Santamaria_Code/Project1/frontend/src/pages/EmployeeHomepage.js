@@ -3,9 +3,11 @@ import { useLocation } from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 
 import {logout} from '../helperfunctions/logout';
+import ReimbursementForm from '../forms/ReimbursementForm';
 
 const EmployeeHomepage = (props) => {
 	const [editUserInfoFlag, setEditUserInfoFlag] = useState(false);
+	const [reimbursementCreateFlag, setReimbursementFlag] = useState(false);
 
 	const location = useLocation();
 	const history = useHistory();
@@ -26,15 +28,13 @@ const EmployeeHomepage = (props) => {
 				<div>
 					<p>Employee ID : {location.state.userData._id} </p>
 					<div>
-						<p>Username:</p>
-						<input type="text" ></input>
+						<span>Username:</span>
+						<input type="text" placeholder={location.state.userData.username}></input>
 					</div>
-
 				</div>
 			)
 		}
-
-		if ( editUserInfoFlag === false){
+		else{
 			return(
 				<div>
 					<p>Employee ID : {location.state.userData._id} </p>
@@ -42,24 +42,30 @@ const EmployeeHomepage = (props) => {
 				</div>
 			);
 		}
-		
 
-		return <div></div>
 	};
+
+	const RenderReimbursementForm = () =>{
+		if(reimbursementCreateFlag === true){
+			return <ReimbursementForm userData = {location.state.userData}/>
+		}
+		else{
+			return <div></div>
+		}
+	}
 
 	return (
 		<div>
 			<h2>Welcome to your employee account page!</h2>
-			<RenderEmployeeInformation/>
 			<button onClick ={() => {setEditUserInfoFlag(!editUserInfoFlag)}}>Edit Profile</button>
-			<button>Submit a new Reinbursment Request</button>
+			<button onClick ={() => {setReimbursementFlag(!reimbursementCreateFlag)}}>Submit a new Reinbursment Request</button>
 			<button>View Pending Requests</button>
 			<button>View Resolved Requests</button>
 			<button  onClick= {() => {logout(history)}} > LogOut</button>
+			<RenderEmployeeInformation/>
+			<RenderReimbursementForm/>
 		</div>
 	)
 }
 
 export default EmployeeHomepage; 
-
-//			<p>Welcome {location.state.userData.username }</p>
