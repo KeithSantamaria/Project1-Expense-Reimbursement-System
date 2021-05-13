@@ -1,18 +1,13 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import {postNewReimbursement} from '../helperfunctions/postFunctions';
 
 const ReimbursementForm = (props) => {
 	const [reasonText, setReasonText] = useState("");
 	const [amount, setAmount] = useState(0);
+	// eslint-disable-next-line
 	const [respData, setRespData] = useState(null);
 
-	useEffect( () => { 
-		console.log(props);
-	}, [props]);
-
 	const handleSubmit = () => { 
-		console.log("this is props");
-		console.log(props);
 		const data = {
 			ownerId: props.userData._id,
 			username: props.userData.username,
@@ -21,6 +16,7 @@ const ReimbursementForm = (props) => {
 		};
 		postNewReimbursement(data,setRespData);
 		alert("Created New Reimbursement Request!");
+		props.closePage(false);
 	}
 
 	return(
@@ -35,7 +31,6 @@ const ReimbursementForm = (props) => {
 					<input min="0" step="1" type="number" placeholder="Whole Numbers only" onChange = {e => setAmount(Math.trunc(e.target.value))}></input>
 				</div>
 				<button onClick = {handleSubmit}>Submit</button>
-
 		</div>
 	)
 }

@@ -20,3 +20,10 @@ export const postNewReimbursement = (data ,setRespData) => {
 		setRespData(res.data);
 	})
 }
+
+export const postEmployeePendingRequests = (data, setRespData) => {
+	axios.post('http://localhost:6969/viewemployeepending' , data)
+	.then(res => {
+		setRespData(res.data);
+	})
+}

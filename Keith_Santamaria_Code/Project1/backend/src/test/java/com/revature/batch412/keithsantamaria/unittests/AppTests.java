@@ -84,5 +84,5 @@ public class AppTests {
 		JSONObject testJson = testApp.packageFailedLogin();
 		Assert.assertEquals("Expected matching Jsons", jsonToSend,testJson);
 	}
-	
+
 }
