@@ -14,7 +14,9 @@ export const postAsManager = (data, setRespData) => {
 	})
 }
 
-// export const postNewReimbursement = (data ,setRespData) => {
-// 	axios.post('http://localhost:6969/createnewreimbursement')
-
-// }
+export const postNewReimbursement = (data ,setRespData) => {
+	axios.post('http://localhost:6969/createreimbursement', data)
+	.then( res => { 
+		setRespData(res.data);
+	})
+}

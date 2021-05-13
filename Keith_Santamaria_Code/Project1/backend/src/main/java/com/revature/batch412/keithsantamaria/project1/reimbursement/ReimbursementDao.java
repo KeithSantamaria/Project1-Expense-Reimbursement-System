@@ -40,12 +40,11 @@ public class ReimbursementDao {
 
 	public void addReimbursement(Reimbursement reimbursement) {
 		Document doc;
-		this.rootLogger.info("Writing new reimbursement");
+		this.rootLogger.info("Writing new reimbursement " + reimbursement.get_id());
 		doc = new Document("_id", reimbursement.get_id())
 			.append("ownerId", reimbursement.getOwnerId())
 			.append("username", reimbursement.getUsername())
 			.append("currentStatus", reimbursement.getCurrentStatus().toString())
-			.append("approvedByID", reimbursement.getApprovedByID())
 			.append("approvedByName", reimbursement.getApprovedByName())
 			.append("reason", reimbursement.getReason())
 			.append("amount", reimbursement.getAmount());

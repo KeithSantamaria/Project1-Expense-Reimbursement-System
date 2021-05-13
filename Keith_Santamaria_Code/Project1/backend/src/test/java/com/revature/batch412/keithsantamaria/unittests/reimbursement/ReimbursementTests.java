@@ -34,7 +34,6 @@ public class ReimbursementTests {
 			"Test",
 			10,
 			ReimbursementStatuses.PENDING,
-			new ObjectId("60940e89c75e100444348e67"),
 			"Admin"
 		);
 		testDao = new ReimbursementDao();

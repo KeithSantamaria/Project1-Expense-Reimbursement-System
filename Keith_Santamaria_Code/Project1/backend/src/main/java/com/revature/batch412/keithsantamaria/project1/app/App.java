@@ -1,12 +1,15 @@
 package com.revature.batch412.keithsantamaria.project1.app;
 
-import com.revature.batch412.keithsantamaria.project1.selectlogin.LoginState;
+import com.revature.batch412.keithsantamaria.project1.reimbursement.Reimbursement;
+import com.revature.batch412.keithsantamaria.project1.reimbursement.ReimbursementDao;
+import com.revature.batch412.keithsantamaria.project1.reimbursement.ReimbursementStatuses;
 import com.revature.batch412.keithsantamaria.project1.users.User;
 import com.revature.batch412.keithsantamaria.project1.users.UserDao;
 import com.revature.batch412.keithsantamaria.project1.users.UserRoles;
 import io.javalin.Javalin;
 import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -66,6 +69,23 @@ public class App {
 		return jsonToSend;
 	}
 
+	public Reimbursement packageNewReimbursement( JSONObject clientInput){
+		String reason = clientInput.get("reason").toString();
+		int amount = Integer.parseInt( clientInput.get("amount").toString() );
+		String ownerId = clientInput.get("ownerId").toString();
+		String username = clientInput.get("username").toString();
+		Reimbursement newReim = new Reimbursement(
+			new ObjectId(),
+			new ObjectId(ownerId),
+			username,
+			reason,
+			amount,
+			ReimbursementStatuses.PENDING,
+			""
+		);
+		return newReim;
+	}
+
 	public void run() {
 		Javalin myApp = Javalin.create(config -> {
 			config.enableCorsForAllOrigins();
@@ -106,5 +126,12 @@ public class App {
 			this.currentUser = null;
 		});
 
+		myApp.post("/createreimbursement", ctx -> {
+			String body = ctx.body();
+			JSONObject clientInput = this.parseReceivedData(body);
+			Reimbursement newReim = this.packageNewReimbursement(clientInput);
+			ReimbursementDao dao = new ReimbursementDao();
+			dao.addReimbursement(newReim);
+		});
 	}
 }

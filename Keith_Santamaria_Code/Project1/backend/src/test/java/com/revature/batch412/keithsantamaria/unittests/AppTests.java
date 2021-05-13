@@ -1,6 +1,7 @@
 package com.revature.batch412.keithsantamaria.unittests;
 
 import com.revature.batch412.keithsantamaria.project1.app.App;
+import com.revature.batch412.keithsantamaria.project1.reimbursement.Reimbursement;
 import com.revature.batch412.keithsantamaria.project1.users.User;
 import com.revature.batch412.keithsantamaria.project1.users.UserRoles;
 import org.apache.log4j.BasicConfigurator;
@@ -83,4 +84,5 @@ public class AppTests {
 		JSONObject testJson = testApp.packageFailedLogin();
 		Assert.assertEquals("Expected matching Jsons", jsonToSend,testJson);
 	}
+	
 }

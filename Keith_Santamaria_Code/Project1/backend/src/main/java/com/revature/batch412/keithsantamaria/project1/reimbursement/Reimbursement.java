@@ -9,13 +9,11 @@ public class Reimbursement {
 	String reason;
 	int amount;
 	ReimbursementStatuses currentStatus;
-	ObjectId approvedByID;
 	String approvedByName;
 
 	public Reimbursement(
 		ObjectId _id, ObjectId ownerId, String username,
-		String reason, int amount, ReimbursementStatuses currentStatus,
-		ObjectId approvedByID, String approvedByName
+		String reason, int amount, ReimbursementStatuses currentStatus, String approvedByName
 	) {
 		this._id = _id;
 		this.ownerId = ownerId;
@@ -23,7 +21,6 @@ public class Reimbursement {
 		this.reason = reason;
 		this.amount = amount;
 		this.currentStatus = currentStatus;
-		this.approvedByID = approvedByID;
 		this.approvedByName = approvedByName;
 	}
 
@@ -73,14 +70,6 @@ public class Reimbursement {
 
 	public void setCurrentStatus(ReimbursementStatuses currentStatus) {
 		this.currentStatus = currentStatus;
-	}
-
-	public ObjectId getApprovedByID() {
-		return approvedByID;
-	}
-
-	public void setApprovedByID(ObjectId approvedByID) {
-		this.approvedByID = approvedByID;
 	}
 
 	public String getApprovedByName() {
