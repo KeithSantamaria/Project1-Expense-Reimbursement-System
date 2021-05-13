@@ -16,7 +16,7 @@ const ReimbursementForm = (props) => {
 		};
 		postNewReimbursement(data,setRespData);
 		alert("Created New Reimbursement Request!");
-		props.closePage(false);
+		props.closePage(!props.closePageFlag);
 	}
 
 	return(

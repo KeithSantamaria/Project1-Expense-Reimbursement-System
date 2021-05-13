@@ -88,7 +88,7 @@ const EmployeeHomepage = (props) => {
 
 	const RenderReimbursementForm = () =>{
 		if(reimbursementCreateFlag === true){
-			return <ReimbursementForm userData = {location.state.userData} closePage = {setReimbursementFlag} />
+			return <ReimbursementForm userData = {location.state.userData} closePage = {setReimbursementFlag} closePageFlag = {reimbursementCreateFlag} />
 		}
 		else{
 			return <div></div>
