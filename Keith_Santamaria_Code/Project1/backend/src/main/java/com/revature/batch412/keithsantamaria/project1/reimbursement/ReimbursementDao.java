@@ -4,9 +4,11 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.revature.batch412.keithsantamaria.project1.app.App;
 import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 public class ReimbursementDao {
-	private List<Reimbursement> currentReimbursements;
+	private List<Document> currentReimbursements;
 
 	protected MongoClient mongoClient;
 	protected MongoDatabase database;
@@ -34,8 +36,18 @@ public class ReimbursementDao {
 		return collection;
 	}
 
-	public List<Reimbursement> getCurrentReimbursements() {
+	public List<Document> getCurrentReimbursements() {
 		return currentReimbursements;
+	}
+
+	public List<JSONObject> convertDocsToReimbursement(){
+		List<JSONObject> reimbursements = new ArrayList<>();
+		for (int i = 0; i < this.currentReimbursements.size(); i++) {
+			String asString = this.currentReimbursements.get(i).toJson();
+			JSONObject asJson = App.parseReceivedData(asString);
+			reimbursements.add(asJson);
+		}
+		return reimbursements;
 	}
 
 	public void addReimbursement(Reimbursement reimbursement) {
@@ -52,8 +64,30 @@ public class ReimbursementDao {
 
 	}
 
-	public List<Document> read(){
+	public List<JSONObject> readAllEmployee( ObjectId ownerId, String username, ReimbursementStatuses statuses){
 		String message = "Fetching all reimbursements";
-		return null;
+		this.rootLogger.info(message);
+		if(statuses == ReimbursementStatuses.PENDING){
+			this.collection.find(
+				and(
+					eq(
+						"ownerId",ownerId),
+					and(
+						eq("username", username),
+						eq("currentStatus", ReimbursementStatuses.PENDING.toString())
+					)
+				)
+			).forEach(doc -> this.currentReimbursements.add(doc));
+		}
+		else{
+			this.collection.find(
+				and(
+					eq("ownerId",ownerId),
+					eq("username",username)
+				)
+			);
+		}
+		List<JSONObject> requests = this.convertDocsToReimbursement();
+		return requests;
 	}
 }

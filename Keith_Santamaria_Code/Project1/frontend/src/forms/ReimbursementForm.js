@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {postNewReimbursement} from '../helperfunctions/postFunctions';
+import {postNewReimbursement, postEmployeePendingRequests} from '../helperfunctions/postFunctions';
 
 const ReimbursementForm = (props) => {
 	const [reasonText, setReasonText] = useState("");
@@ -16,7 +16,11 @@ const ReimbursementForm = (props) => {
 		};
 		postNewReimbursement(data,setRespData);
 		alert("Created New Reimbursement Request!");
-		props.closePage(!props.closePageFlag);
+		const pendingRequest = {
+			_id : props.userData._id,
+			username : props.userData.username
+		}
+		postEmployeePendingRequests(pendingRequest,props.pendingRequestsSetter);
 	}
 
 	return(

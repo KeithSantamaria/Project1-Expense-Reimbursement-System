@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 
 import {logout} from '../helperfunctions/logout';
+import {postEmployeePendingRequests} from '../helperfunctions/postFunctions';
 import ReimbursementForm from '../forms/ReimbursementForm';
 
 const EmployeeHomepage = (props) => {
@@ -12,18 +13,34 @@ const EmployeeHomepage = (props) => {
 	const [resolvedViewFlag, setResolvedViewFlag] = useState(false);
 	const [respData, setRespData] = useState(null);
 
+	const [pendingRequests, setPendingRequests] = useState([]);
 
 	const location = useLocation();
 	const history = useHistory();
 
 	useEffect( () => {
-		console.log("locationState");
-		console.log(location.state);
+		// console.log("locationState");
+		// console.log(location.state);
 		if (location.state === undefined){
 			alert("Access Denied: redirecting to login");
 			history.replace("/")
 		}
 	},[location,history]);
+
+	useEffect( () => {
+		console.log(respData);
+		if(respData !== null){
+			setPendingRequests(respData.pendingRequests);
+		}
+	},[respData]);
+
+	useEffect(() => {
+		const data = {
+			_id: location.state.userData._id,
+			username: location.state.userData.username
+		}
+		postEmployeePendingRequests(data,setRespData);
+	},[location]);
 
 	const RenderEmployeeInformation = () => {
 		if(location.state === undefined){
@@ -31,7 +48,6 @@ const EmployeeHomepage = (props) => {
 				<div>No User Found</div>
 			)
 		}
-
 		if (editUserInfoFlag === true){
 			return(
 				<div>
@@ -58,13 +74,29 @@ const EmployeeHomepage = (props) => {
 
 	const RenderPendingRequestView = () => {
 		if(pendingViewFlag){
-			const data = {
-				_id: location.state.userData._id,
-				username: location.state.userData.username
-			}
 			return (
 				<div>
 					<h3>Viewing Pending Requests</h3>
+					<table border="1">
+						<tbody>
+							<tr>
+								<th>ID</th>
+								<th>Reason</th>
+								<th>Amount</th>
+							</tr>
+							{
+								pendingRequests.map((request) => {
+									return(
+										<tr key = {request._id.$oid}>
+											<td>{request._id.$oid}</td>
+											<td>{request.reason}</td>
+											<td>{request.amount}</td>
+										</tr>
+									)
+								})
+							}
+						</tbody>
+					</table>
 				</div>
 			)
 		}
@@ -78,6 +110,11 @@ const EmployeeHomepage = (props) => {
 			return(
 				<div>
 					<h3>Viewing Resolved Requests</h3>
+					<table border="1">
+						<tbody>
+							
+						</tbody>
+					</table>
 				</div>
 			)
 		}
@@ -88,7 +125,7 @@ const EmployeeHomepage = (props) => {
 
 	const RenderReimbursementForm = () =>{
 		if(reimbursementCreateFlag === true){
-			return <ReimbursementForm userData = {location.state.userData} closePage = {setReimbursementFlag} closePageFlag = {reimbursementCreateFlag} />
+			return <ReimbursementForm userData = {location.state.userData} pendingRequestsSetter = {setRespData} />
 		}
 		else{
 			return <div></div>

@@ -14,6 +14,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.List;
+
 public class App {
 	protected org.apache.logging.log4j.Logger rootLogger = LogManager.getRootLogger();
 	private User currentUser;
@@ -36,7 +38,7 @@ public class App {
 		return false;
 	}
 
-	public JSONObject parseReceivedData(String body) {
+	public static JSONObject parseReceivedData(String body) {
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObject = null;
 		try {
@@ -135,7 +137,16 @@ public class App {
 		});
 
 		myApp.post("/viewemployeepending", ctx -> {
-
+			String body = ctx.body();
+			rootLogger.info(body);
+			JSONObject clientInput = this.parseReceivedData(body);
+			String ownerId = clientInput.get("_id").toString();
+			String username = clientInput.get("username").toString();
+			ReimbursementDao dao = new ReimbursementDao();
+			List<JSONObject> requests = dao.readAllEmployee(new ObjectId(ownerId), username, ReimbursementStatuses.PENDING);
+			JSONObject list = new JSONObject();
+			list.put("pendingRequests", requests);
+			ctx.result(list.toJSONString());
 		});
 	}
 }
