@@ -148,5 +148,13 @@ public class App {
 			list.put("pendingRequests", requests);
 			ctx.result(list.toJSONString());
 		});
+
+		myApp.post("/viewallpending", ctx -> {
+			ReimbursementDao dao = new ReimbursementDao();
+			List<JSONObject> requests = dao.readAll(ReimbursementStatuses.PENDING);
+			JSONObject list = new JSONObject();
+			
+		});
+
 	}
 }

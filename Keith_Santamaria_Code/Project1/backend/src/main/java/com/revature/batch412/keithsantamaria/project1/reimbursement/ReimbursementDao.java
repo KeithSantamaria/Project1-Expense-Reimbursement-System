@@ -13,8 +13,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.*;
 
 public class ReimbursementDao {
 	private List<Document> currentReimbursements;
@@ -65,7 +64,7 @@ public class ReimbursementDao {
 	}
 
 	public List<JSONObject> readAllEmployee( ObjectId ownerId, String username, ReimbursementStatuses statuses){
-		String message = "Fetching all reimbursements";
+		String message = "Fetching all reimbursements for employee: " + ownerId.toString();
 		this.rootLogger.info(message);
 		if(statuses == ReimbursementStatuses.PENDING){
 			this.collection.find(
@@ -84,6 +83,26 @@ public class ReimbursementDao {
 				and(
 					eq("ownerId",ownerId),
 					eq("username",username)
+				)
+			);
+		}
+		List<JSONObject> requests = this.convertDocsToReimbursement();
+		return requests;
+	}
+
+	public List<JSONObject> readAll(ReimbursementStatuses status){
+		String message = "Fetching all Reimbursements";
+		this.rootLogger.info(message);
+		if(status == ReimbursementStatuses.PENDING){
+			this.collection.find(
+				eq("currentStatus",ReimbursementStatuses.PENDING.toString())
+			).forEach(doc -> this.currentReimbursements.add(doc));
+		}
+		else{
+			this.collection.find(
+				or(
+					eq("currentStatus",ReimbursementStatuses.APPROVED.toString()),
+					eq("currentStatus",ReimbursementStatuses.DENIED.toString())
 				)
 			);
 		}
