@@ -14,13 +14,12 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 
 
@@ -38,6 +37,7 @@ public class UserTests {
 	@Before
 	public void beforeEachTest(){
 		testDao = new UserDao();
+		testDao.setDatabase(testDao.getMongoClient().getDatabase("unittest1"));
 	}
 
 	@Test
@@ -83,5 +83,14 @@ public class UserTests {
 		}
 
 		Assert.assertEquals("Users did not match", true, isEqualObjects);
+	}
+
+	@Test
+	public void shouldReadAllUsers(){
+		int expectSize = 3;
+		JSONArray test = this.testDao.readAll();
+		System.out.println(test);
+		Assert.assertEquals("Expected 2 users", expectSize, test.size());
+
 	}
 }

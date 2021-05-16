@@ -37,9 +37,10 @@ public class ReimbursementTests {
 			"Test",
 			10,
 			ReimbursementStatuses.PENDING,
-			"Admin"
+			""
 		);
 		testDao = new ReimbursementDao();
+		testDao.setDatabase(testDao.getMongoClient().getDatabase("unittest1"));
 		collectionSize = testDao.getCollection().countDocuments();
 	}
 
@@ -56,5 +57,12 @@ public class ReimbursementTests {
 		int expectedSize = 3;
 		List<JSONObject> testList = testDao.readAllEmployee(new ObjectId("609d3ea1bdc25278d20c9dd6"), "test", ReimbursementStatuses.PENDING);
 		Assert.assertEquals("Expected 3 requests", expectedSize , testList.size());
+	}
+
+	@Test
+	public void shouldReadResolvedEmployeeRequests(){
+		int expectedSize =2;
+		List<JSONObject> testList = testDao.readAllEmployee(new ObjectId("609d3ea1bdc25278d20c9dd6"), "test", ReimbursementStatuses.APPROVED);
+		Assert.assertEquals("Expected 2 requests", expectedSize , testList.size());
 	}
 }

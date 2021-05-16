@@ -7,7 +7,6 @@ import {postEmployeeRequests} from '../helperfunctions/postFunctions';
 import ReimbursementForm from '../forms/ReimbursementForm';
 
 const EmployeeHomepage = (props) => {
-	const [editUserInfoFlag, setEditUserInfoFlag] = useState(false);
 	const [reimbursementCreateFlag, setReimbursementFlag] = useState(false);
 	const [respData, setRespData] = useState(null);
 
@@ -41,22 +40,12 @@ const EmployeeHomepage = (props) => {
 		postEmployeeRequests(data,setRespData);
 	},[location]);
 
+
+
 	const RenderEmployeeInformation = () => {
 		if(location.state === undefined){
 			return (
 				<div>No User Found</div>
-			)
-		}
-		if (editUserInfoFlag === true){
-			return(
-				<div>
-					<h3>Editing Profile</h3>
-					<p>Employee ID : {location.state.userData._id} </p>
-					<div>
-						<span>Username:</span>
-						<input type="text" placeholder={location.state.userData.username}></input>
-					</div>
-				</div>
 			)
 		}
 		else{
@@ -145,7 +134,6 @@ const EmployeeHomepage = (props) => {
 	return (
 		<div>
 			<h2>Welcome to your employee account page!</h2>
-			<button onClick ={() => {setEditUserInfoFlag(!editUserInfoFlag)}}>Edit Profile</button>
 			<button onClick ={() => {setReimbursementFlag(!reimbursementCreateFlag)}}>Submit a new Reinbursment Request</button>
 			<button  onClick= {() => {logout(history)}} > LogOut</button>
 			<RenderEmployeeInformation/>

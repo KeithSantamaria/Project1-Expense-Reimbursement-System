@@ -4,7 +4,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.revature.batch412.keithsantamaria.dao.GenericDao;
+import com.revature.batch412.keithsantamaria.project1.reimbursement.ReimbursementStatuses;
 import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -31,6 +31,14 @@ public class UserDao{
 		this.mongoClient = MongoClients.create();
 		this.database = mongoClient.getDatabase("project1");
 		this.collection = database.getCollection("users");
+	}
+
+	public MongoClient getMongoClient() {
+		return mongoClient;
+	}
+
+	public void setDatabase(MongoDatabase database) {
+		this.database = database;
 	}
 
 	public Document getUser() {
@@ -90,7 +98,6 @@ public class UserDao{
 			}
 			result.add(jsonObject);
 		});
-
 		return result;
 	}
 }

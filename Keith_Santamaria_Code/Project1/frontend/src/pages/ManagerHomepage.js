@@ -208,7 +208,6 @@ const ManagerHomePage = (props) => {
 		<div>
 			<h2>This is the Manager Home Page!</h2>
 			<button onClick = {() => {handleViewEmployees()}}>View Employees</button>
-			<button>Create Employee</button>
 			<button  onClick= {() => {logout(history)}} > LogOut</button>
 			<h3>Current Filter: {filterUsername}</h3>
 			<RenderRequests/>
