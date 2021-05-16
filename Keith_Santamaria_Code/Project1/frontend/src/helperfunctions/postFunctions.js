@@ -38,3 +38,11 @@ export const postAllPendingRequests = (data, setRespData) => {
 export const postUpdateStatus = (data) => {
 	axios.post("http://localhost:6969/review", data)
 }
+
+export const postListOfEmployees = (setRespData) => {
+	const data = {}
+	axios.post('http://localhost:6969/viewemployees',data)
+		.then(res =>{
+			setRespData(res.data);
+		})
+}

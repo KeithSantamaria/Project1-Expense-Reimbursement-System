@@ -8,6 +8,14 @@ import com.revature.batch412.keithsantamaria.dao.GenericDao;
 import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Updates.*;
 
@@ -65,4 +73,24 @@ public class UserDao{
 		return this.user;
 	}
 
+	public JSONArray readAll(){
+		List<Document> docs = new ArrayList<>();
+		this.rootLogger.info("Fetching all employees");
+		this.collection.find(
+
+		).forEach(doc -> docs.add(doc));
+		JSONArray result = new JSONArray();
+		docs.forEach(doc -> {
+			JSONParser parser = new JSONParser();
+			JSONObject jsonObject = null;
+			try {
+				jsonObject = (JSONObject) parser.parse(doc.toJson());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			result.add(jsonObject);
+		});
+
+		return result;
+	}
 }

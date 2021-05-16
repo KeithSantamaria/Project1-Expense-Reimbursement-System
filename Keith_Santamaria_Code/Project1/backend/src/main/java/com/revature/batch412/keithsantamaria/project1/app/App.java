@@ -10,6 +10,7 @@ import io.javalin.Javalin;
 import org.apache.logging.log4j.LogManager;
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -178,9 +179,13 @@ public class App {
 			}
 		});
 
-//		myApp.post("/viewemployees", ctx -> {
-//			UserDao dao = new UserDao();
-//			dao.
-//		});
+		myApp.post("/viewemployees", ctx -> {
+			UserDao dao = new UserDao();
+			JSONArray resultAsArr = dao.readAll();
+			JSONObject result = new JSONObject();
+			result.put("employees", resultAsArr);
+			this.rootLogger.info(result);
+			ctx.result(result.toString());
+		});
 	}
 }

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 
 import {logout} from '../helperfunctions/logout';
-import {postAllPendingRequests, postUpdateStatus} from '../helperfunctions/postFunctions';
+import {postAllPendingRequests, postUpdateStatus, postListOfEmployees} from '../helperfunctions/postFunctions';
 
 const approve= "APPROVE";
 const deny= "DENY";
@@ -15,6 +15,9 @@ const ManagerHomePage = (props) => {
 	const [respData, setRespData] = useState("");
 	const [pendingRequests, setPendingRequests] = useState([]);
 	const [resolvedRequests, setResolvedRequests] = useState([]);
+	const [employeesResp, setEmployeesResp] = useState([]);
+	const [employeeFlag, setEmployeeFlag] = useState(false);
+	const [filter, setFilter] = useState(null);
 
 	useEffect( () => {
 		console.log("locationState");
@@ -37,9 +40,9 @@ const ManagerHomePage = (props) => {
 		}
 	},[respData])
 
-
-
-
+	useEffect(() => {
+		console.log(employeesResp);
+	},[employeesResp])
 
 	const handleStatusChange = (request, status) => {
 		const data = {
@@ -51,6 +54,64 @@ const ManagerHomePage = (props) => {
 		alert("Sucessfully Reviewed Request!");
 		window.location.reload(true);
 
+	}
+
+	const handleViewEmployees = () => {
+		postListOfEmployees(setEmployeesResp);
+		setEmployeeFlag(!employeeFlag);
+	}
+
+	const RenderEmployees = () => {
+		if(employeeFlag && (employeesResp.employees !== undefined)){
+			return (
+				<div>
+					<h3>All Employees</h3>
+					<table border ="1">
+						<tbody>
+							<tr>
+								<th>ID</th>
+								<th>Username</th>
+								<th>Role</th>
+								<th>View Requests?</th>
+							</tr>
+							{
+								employeesResp.employees.map((employee) => {
+									if(employee.role === "EMPLOYEE"){
+										return(
+											<tr>
+												<td>{employee._id.$oid}</td>
+												<td>{employee.username}</td>
+												<td>{employee.role}</td>
+												<td><button>Filter Requests to this employee</button></td>
+											</tr>
+										)
+									}
+									if(employee.role === "MANAGER"){
+										return(
+											<tr>
+												<td>{employee._id.$oid}</td>
+												<td>{employee.username}</td>
+												<td>{employee.role}</td>
+												<td>N/A</td>
+											</tr>
+										)
+									}
+									return null;
+								})
+							}
+							<tr>
+								<td>
+									<button>No Filter</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			)
+		}
+		else{
+			return null;
+		}
 	}
 
 	const RenderRequests = () =>{
@@ -127,10 +188,12 @@ const ManagerHomePage = (props) => {
 	return (
 		<div>
 			<h2>This is the Manager Home Page!</h2>
-			<button>View Employees</button>
+			<button onClick = {() => {handleViewEmployees()}}>View Employees</button>
 			<button>Create Employee</button>
 			<button  onClick= {() => {logout(history)}} > LogOut</button>
+			<h3>Current Filter: {}</h3>
 			<RenderRequests/>
+			<RenderEmployees/>
 		</div>
 	)
 }

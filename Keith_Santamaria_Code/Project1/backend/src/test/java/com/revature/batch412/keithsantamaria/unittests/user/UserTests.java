@@ -61,7 +61,6 @@ public class UserTests {
 				.append("password", "123password123")
 				.append("role", "MANAGER")
 		);
-
 		User testUser = testDao.convertDocToUser();
 		User expectedUser = new User(id,"Admin","123password123",UserRoles.MANAGER);
 		boolean isEqualObjects = true;
