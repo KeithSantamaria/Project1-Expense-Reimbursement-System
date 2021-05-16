@@ -18,6 +18,7 @@ const ManagerHomePage = (props) => {
 	const [employeesResp, setEmployeesResp] = useState([]);
 	const [employeeFlag, setEmployeeFlag] = useState(false);
 	const [filter, setFilter] = useState(null);
+	const [filterUsername, setFilterUsername] = useState("");
 
 	useEffect( () => {
 		console.log("locationState");
@@ -29,6 +30,7 @@ const ManagerHomePage = (props) => {
 	},[location,history]);
 
 	useEffect(() => {
+		setFilter("");
 		postAllPendingRequests({},setRespData);
 	},[location])
 
@@ -78,17 +80,25 @@ const ManagerHomePage = (props) => {
 								employeesResp.employees.map((employee) => {
 									if(employee.role === "EMPLOYEE"){
 										return(
-											<tr>
+											<tr key = {employee._id.$oid}>
 												<td>{employee._id.$oid}</td>
 												<td>{employee.username}</td>
 												<td>{employee.role}</td>
-												<td><button>Filter Requests to this employee</button></td>
+												<td>
+													<button onClick = {() => {
+														setFilter(employee._id.$oid); 
+														setFilterUsername(employee.username);
+														}}
+													>
+														Filter Requests to this employee
+													</button>
+												</td>
 											</tr>
 										)
 									}
 									if(employee.role === "MANAGER"){
 										return(
-											<tr>
+											<tr key = {employee._id.$oid}>
 												<td>{employee._id.$oid}</td>
 												<td>{employee.username}</td>
 												<td>{employee.role}</td>
@@ -100,8 +110,12 @@ const ManagerHomePage = (props) => {
 								})
 							}
 							<tr>
-								<td>
-									<button>No Filter</button>
+								<td colSpan="4">
+									<button onClick = {() => {
+										setFilter("");
+										setFilterUsername("");
+										}}
+									>No Filter</button>
 								</td>
 							</tr>
 						</tbody>
@@ -131,19 +145,24 @@ const ManagerHomePage = (props) => {
 							</tr>
 							{
 								pendingRequests.map((request,count) => {
-									return(
-										<tr key = {request._id.$oid}>
-											<td>{count + 1}</td>
-											<td>{request._id.$oid}</td>
-											<td>{request.username}</td>
-											<td>{request.reason}</td>
-											<td>${request.amount}</td>
-											<td>
-												<button onClick = {() => {handleStatusChange(request,approve)}}>Approve</button>
-												<button onClick = {() => {handleStatusChange(request,deny)}}>Deny</button>
-											</td>
-										</tr>
-									)
+									if (filter === request.ownerId.$oid || filter === ""){
+										return(
+											<tr key = {request._id.$oid}>
+												<td>{count + 1}</td>
+												<td>{request._id.$oid}</td>
+												<td>{request.username}</td>
+												<td>{request.reason}</td>
+												<td>${request.amount}</td>
+												<td>
+													<button onClick = {() => {handleStatusChange(request,approve)}}>Approve</button>
+													<button onClick = {() => {handleStatusChange(request,deny)}}>Deny</button>
+												</td>
+											</tr>
+										)
+									}
+									else{
+										return null;
+									}
 								})
 							}
 						</tbody>
@@ -191,7 +210,7 @@ const ManagerHomePage = (props) => {
 			<button onClick = {() => {handleViewEmployees()}}>View Employees</button>
 			<button>Create Employee</button>
 			<button  onClick= {() => {logout(history)}} > LogOut</button>
-			<h3>Current Filter: {}</h3>
+			<h3>Current Filter: {filterUsername}</h3>
 			<RenderRequests/>
 			<RenderEmployees/>
 		</div>
