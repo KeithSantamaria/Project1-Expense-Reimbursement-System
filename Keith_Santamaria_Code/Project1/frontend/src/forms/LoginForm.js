@@ -71,7 +71,6 @@ const LoginForm = (props) => {
 			<span>Password: </span>
 			<input type = "password" name="password" placeholder ="Password" onChange = {e => setPasswordText(e.target.value)} />
 			<button>Submit</button>
-			<div>{userNameText}</div>
 		</form>
 	)
 }

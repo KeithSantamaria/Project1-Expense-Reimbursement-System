@@ -20,7 +20,6 @@ const ManagerHomePage = (props) => {
 	const [respData, setRespData] = useState("");
 	const [pendingRequests, setPendingRequests] = useState([]);
 	const [resolvedRequests, setResolvedRequests] = useState([]);
-	const [statusChange, setStatusChange] = useState(false);
 
 	useEffect( () => {
 		console.log("locationState");
@@ -30,10 +29,6 @@ const ManagerHomePage = (props) => {
 			history.replace("/")
 		}
 	},[location,history]);
-
-	useEffect(() => {
-		postAllPendingRequests({},setRespData);
-	},[statusChange])
 
 	useEffect(() => {
 		if(respData !== null){
@@ -61,7 +56,9 @@ const ManagerHomePage = (props) => {
 			approvedByName : location.state.userData.username
 		};
 		postUpdateStatus(data);
-		setStatusChange(!statusChange);
+		alert("Sucessfully Reviewed Request!");
+		window.location.reload(true);
+
 	}
 
 	const RenderRequests = () => {

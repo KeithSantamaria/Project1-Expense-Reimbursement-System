@@ -136,7 +136,7 @@ public class App {
 			dao.addReimbursement(newReim);
 		});
 
-		myApp.post("/viewemployeepending", ctx -> {
+		myApp.post("/viewemployeerequests", ctx -> {
 			String body = ctx.body();
 			rootLogger.info(body);
 			JSONObject clientInput = this.parseReceivedData(body);
@@ -146,6 +146,9 @@ public class App {
 			List<JSONObject> requests = dao.readAllEmployee(new ObjectId(ownerId), username, ReimbursementStatuses.PENDING);
 			JSONObject list = new JSONObject();
 			list.put("pendingRequests", requests);
+			requests = dao.readAllEmployee(new ObjectId(ownerId), username, ReimbursementStatuses.APPROVED);
+			this.rootLogger.info(requests);
+			list.put("resolvedRequests", requests);
 			ctx.result(list.toJSONString());
 		});
 

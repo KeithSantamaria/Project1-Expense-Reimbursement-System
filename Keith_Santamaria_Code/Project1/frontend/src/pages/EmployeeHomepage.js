@@ -3,18 +3,16 @@ import { useLocation } from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
 
 import {logout} from '../helperfunctions/logout';
-import {postEmployeePendingRequests} from '../helperfunctions/postFunctions';
+import {postEmployeeRequests} from '../helperfunctions/postFunctions';
 import ReimbursementForm from '../forms/ReimbursementForm';
 
 const EmployeeHomepage = (props) => {
 	const [editUserInfoFlag, setEditUserInfoFlag] = useState(false);
 	const [reimbursementCreateFlag, setReimbursementFlag] = useState(false);
-	const [pendingViewFlag, setPendingViewFlag] = useState(false);
-	const [resolvedViewFlag, setResolvedViewFlag] = useState(false);
 	const [respData, setRespData] = useState(null);
 
 	const [pendingRequests, setPendingRequests] = useState([]);
-
+	const [resolvedRequests, setResolvedRequests] = useState([]);
 	const location = useLocation();
 	const history = useHistory();
 
@@ -31,6 +29,7 @@ const EmployeeHomepage = (props) => {
 		console.log(respData);
 		if(respData !== null){
 			setPendingRequests(respData.pendingRequests);
+			setResolvedRequests(respData.resolvedRequests);
 		}
 	},[respData]);
 
@@ -39,7 +38,7 @@ const EmployeeHomepage = (props) => {
 			_id: location.state.userData._id,
 			username: location.state.userData.username
 		}
-		postEmployeePendingRequests(data,setRespData);
+		postEmployeeRequests(data,setRespData);
 	},[location]);
 
 	const RenderEmployeeInformation = () => {
@@ -73,54 +72,65 @@ const EmployeeHomepage = (props) => {
 	};
 
 	const RenderPendingRequestView = () => {
-		if(pendingViewFlag){
-			return (
-				<div>
-					<h3>Viewing Pending Requests</h3>
-					<table border="1">
-						<tbody>
-							<tr>
-								<th>ID</th>
-								<th>Reason</th>
-								<th>Amount</th>
-							</tr>
-							{
-								pendingRequests.map((request) => {
-									return(
-										<tr key = {request._id.$oid}>
-											<td>{request._id.$oid}</td>
-											<td>{request.reason}</td>
-											<td>{request.amount}</td>
-										</tr>
-									)
-								})
-							}
-						</tbody>
-					</table>
-				</div>
-			)
-		}
-		else{
-			return <div></div>
-		}
+		return (
+			<div>
+				<h3>Viewing Pending Requests</h3>
+				<table border="1">
+					<tbody>
+						<tr>
+							<th>No.</th>
+							<th>ID</th>
+							<th>Reason</th>
+							<th>Amount</th>
+						</tr>
+						{
+							pendingRequests.map((request,count) => {
+								return(
+									<tr key = {request._id.$oid}>
+										<td>{count + 1 }</td>
+										<td>{request._id.$oid}</td>
+										<td>{request.reason}</td>
+										<td>{request.amount}</td>
+									</tr>
+								)
+							})
+						}
+					</tbody>
+				</table>
+			</div>
+		)
 	}
 
 	const RenderResolvedRequestView = () => {
-		if(resolvedViewFlag){
-			return(
-				<div>
-					<h3>Viewing Resolved Requests</h3>
-					<table border="1">
-						<tbody>
-							
-						</tbody>
-					</table>
-				</div>
-			)
-		}
-		else{
-			return <div></div>
-		}
+		return(
+			<div>
+				<h3>Viewing Resolved Requests</h3>
+				<table border="1">
+					<tbody>
+						<tr>
+							<th>No.</th>
+							<th>ID</th>
+							<th>Reason</th>
+							<th>Amount</th>
+							<th>Status</th>
+						</tr>
+						{
+							resolvedRequests.map((request,count) => {
+								return(
+									<tr key = {request._id.$oid}>
+										<td>{count + 1 }</td>
+										<td>{request._id.$oid}</td>
+										<td>{request.reason}</td>
+										<td>{request.amount}</td>
+										<td>{request.currentStatus}</td>
+									</tr>
+								)
+							})
+						}
+					</tbody>
+				</table>
+			</div>
+		)
 	}
 
 	const RenderReimbursementForm = () =>{
@@ -137,8 +147,6 @@ const EmployeeHomepage = (props) => {
 			<h2>Welcome to your employee account page!</h2>
 			<button onClick ={() => {setEditUserInfoFlag(!editUserInfoFlag)}}>Edit Profile</button>
 			<button onClick ={() => {setReimbursementFlag(!reimbursementCreateFlag)}}>Submit a new Reinbursment Request</button>
-			<button onClick ={() => {setPendingViewFlag(!pendingViewFlag)}}>View Pending Requests</button>
-			<button onClick ={() => {setResolvedViewFlag(!resolvedViewFlag)}}>View Resolved Requests</button>
 			<button  onClick= {() => {logout(history)}} > LogOut</button>
 			<RenderEmployeeInformation/>
 			<RenderReimbursementForm/>

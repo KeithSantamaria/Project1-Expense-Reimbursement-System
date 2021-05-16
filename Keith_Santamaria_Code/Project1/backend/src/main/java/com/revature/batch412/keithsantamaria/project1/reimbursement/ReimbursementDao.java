@@ -67,6 +67,7 @@ public class ReimbursementDao {
 	}
 
 	public List<JSONObject> readAllEmployee( ObjectId ownerId, String username, ReimbursementStatuses statuses){
+		this.currentReimbursements.clear();
 		String message = "Fetching all reimbursements for employee: " + ownerId.toString();
 		this.rootLogger.info(message);
 		if(statuses == ReimbursementStatuses.PENDING){
@@ -85,9 +86,16 @@ public class ReimbursementDao {
 			this.collection.find(
 				and(
 					eq("ownerId",ownerId),
-					eq("username",username)
+					and(
+						or(
+							eq("currentStatus",ReimbursementStatuses.APPROVED.toString()),
+							eq("currentStatus",ReimbursementStatuses.DENIED.toString())
+						),
+						eq("username",username)
+					)
+
 				)
-			);
+			).forEach(doc -> this.currentReimbursements.add(doc));
 		}
 		List<JSONObject> requests = this.convertDocsToReimbursement();
 		return requests;
