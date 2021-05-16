@@ -149,12 +149,35 @@ public class App {
 			ctx.result(list.toJSONString());
 		});
 
-		myApp.post("/viewallpending", ctx -> {
+		myApp.post("/viewall", ctx -> {
 			ReimbursementDao dao = new ReimbursementDao();
 			List<JSONObject> requests = dao.readAll(ReimbursementStatuses.PENDING);
 			JSONObject list = new JSONObject();
-			
+			list.put("pendingRequests", requests);
+			requests = dao.readAll(ReimbursementStatuses.APPROVED);
+			list.put("resolvedRequests", requests);
+			ctx.result(list.toJSONString());
 		});
 
+		myApp.post("/review", ctx -> {
+			this.rootLogger.info(ctx.body());
+			ReimbursementDao dao = new ReimbursementDao();
+			String body = ctx.body();
+			JSONObject clientInput = this.parseReceivedData(body);
+			String _id = clientInput.get("_id").toString();
+			String status = clientInput.get("currentStatus").toString();
+			String approvedBy = clientInput.get("approvedByName").toString();
+			if ( status.equals("APPROVE")){
+				dao.updateStatus(new ObjectId(_id), ReimbursementStatuses.APPROVED, approvedBy);
+			}
+			if (status.equals("DENY")){
+				dao.updateStatus(new ObjectId(_id), ReimbursementStatuses.DENIED,approvedBy);
+			}
+		});
+
+//		myApp.post("/viewemployees", ctx -> {
+//			UserDao dao = new UserDao();
+//			dao.
+//		});
 	}
 }

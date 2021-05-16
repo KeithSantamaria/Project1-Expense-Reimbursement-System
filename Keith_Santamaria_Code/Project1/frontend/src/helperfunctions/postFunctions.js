@@ -27,3 +27,14 @@ export const postEmployeePendingRequests = (data, setRespData) => {
 		setRespData(res.data);
 	})
 }
+
+export const postAllPendingRequests = (data, setRespData) => {
+	axios.post('http://localhost:6969/viewall', data)
+	.then(res => {
+		setRespData(res.data);
+	})
+}
+
+export const postUpdateStatus = (data) => {
+	axios.post("http://localhost:6969/review", data)
+}

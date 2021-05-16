@@ -12,8 +12,11 @@ import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Updates.combine;
+import static com.mongodb.client.model.Updates.set;
 
 public class ReimbursementDao {
 	private List<Document> currentReimbursements;
@@ -91,7 +94,8 @@ public class ReimbursementDao {
 	}
 
 	public List<JSONObject> readAll(ReimbursementStatuses status){
-		String message = "Fetching all Reimbursements";
+		this.currentReimbursements.clear();
+		String message = "Fetching all " + status.toString().toLowerCase(Locale.ROOT) +  " Reimbursements";
 		this.rootLogger.info(message);
 		if(status == ReimbursementStatuses.PENDING){
 			this.collection.find(
@@ -104,9 +108,32 @@ public class ReimbursementDao {
 					eq("currentStatus",ReimbursementStatuses.APPROVED.toString()),
 					eq("currentStatus",ReimbursementStatuses.DENIED.toString())
 				)
-			);
+			).forEach(doc -> this.currentReimbursements.add(doc));
 		}
 		List<JSONObject> requests = this.convertDocsToReimbursement();
 		return requests;
 	}
+
+	public  JSONObject updateStatus(ObjectId id,ReimbursementStatuses status, String approvedBy){
+		this.rootLogger.info("updating request: id- " + id.toString() + " to status - " + status.toString());
+		this.currentReimbursements.clear();
+		Document Reimbursement = this.collection.findOneAndUpdate(
+			eq("_id",id),
+			combine(
+				set("currentStatus",status.toString()),
+				set("approvedByName", approvedBy)
+			));
+		this.currentReimbursements.add(Reimbursement);
+		List<JSONObject> requests = this.convertDocsToReimbursement();
+		JSONObject result = requests.get(0);
+		return result;
+	}
+//	public  List<JSONObject> readAllByEmployee(ObjectId employee){
+//		this.currentReimbursements.clear();
+//		String message = "Fetching all Reimbursements by employee " + employee.toString();
+//		this.rootLogger.info(message);
+//		this.collection.find(
+//			eq("ownerId")
+//		);
+//	}
 }
