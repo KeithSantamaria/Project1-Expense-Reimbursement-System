@@ -5,9 +5,6 @@ import {useHistory} from 'react-router-dom';
 import {logout} from '../helperfunctions/logout';
 import {postAllPendingRequests, postUpdateStatus} from '../helperfunctions/postFunctions';
 
-const allPending = "allPending";
-const allResolved = "allResolved";
-const pickEmployee = "pickEmployee";
 const approve= "APPROVE";
 const deny= "DENY";
 
@@ -15,8 +12,6 @@ const ManagerHomePage = (props) => {
 	const location = useLocation();
 	const history = useHistory();
 
-	const [requestFilterFlag, setResquestFilterFlag] = useState(false);
-	const [currentFilter, setCurrentFilter] = useState("");
 	const [respData, setRespData] = useState("");
 	const [pendingRequests, setPendingRequests] = useState([]);
 	const [resolvedRequests, setResolvedRequests] = useState([]);
@@ -31,6 +26,10 @@ const ManagerHomePage = (props) => {
 	},[location,history]);
 
 	useEffect(() => {
+		postAllPendingRequests({},setRespData);
+	},[location])
+
+	useEffect(() => {
 		if(respData !== null){
 			setPendingRequests(respData.pendingRequests);
 			setResolvedRequests(respData.resolvedRequests);
@@ -38,15 +37,8 @@ const ManagerHomePage = (props) => {
 		}
 	},[respData])
 
-	useEffect(() => {
-		postAllPendingRequests({},setRespData);
-	},[location])
 
-	useEffect(() => {
-		if(!requestFilterFlag){
-			setCurrentFilter("");
-		}
-	},[requestFilterFlag])
+
 
 
 	const handleStatusChange = (request, status) => {
@@ -61,11 +53,8 @@ const ManagerHomePage = (props) => {
 
 	}
 
-	const RenderRequests = () => {
-		if(currentFilter === ""){
-			return null;
-		}
-		if(currentFilter === allPending){
+	const RenderRequests = () =>{
+		if (pendingRequests !== undefined){
 			return(
 				<div>
 					<h3>Viewing Pending Requests</h3>
@@ -98,12 +87,6 @@ const ManagerHomePage = (props) => {
 							}
 						</tbody>
 					</table>
-				</div>
-			)
-		} 
-		if(currentFilter === allResolved){
-			return (
-				<div>
 					<h3>Viewing Resolved Requests</h3>
 					<table border="1">
 						<tbody>
@@ -134,39 +117,19 @@ const ManagerHomePage = (props) => {
 						</tbody>
 					</table>
 				</div>
-			);
-		}
-		if(currentFilter === pickEmployee){
-			return null; 
-		}
-	}
-
-	const RenderFilterButtons = () => {
-		if(requestFilterFlag){
-			return(
-				<div>
-					<button onClick = {() => {setCurrentFilter(allPending)}}>View All Pending Requests</button>
-					<button onClick = {() => {setCurrentFilter(allResolved)}}>View All Resolved Requests</button>
-					<button onClick = {() => {setCurrentFilter(pickEmployee)}}>View All requests from an Employee</button>
-					<button onClick = {() => {setCurrentFilter("")}}>Exit</button>
-				</div>
-			);
+			)
 		}
 		else{
-			return(
-				<div></div>
-			)
+			return null;
 		}
 	}
 
 	return (
 		<div>
 			<h2>This is the Manager Home Page!</h2>
-			<button onClick = { () => {setResquestFilterFlag(!requestFilterFlag)}}>View Requests</button>
 			<button>View Employees</button>
 			<button>Create Employee</button>
 			<button  onClick= {() => {logout(history)}} > LogOut</button>
-			<RenderFilterButtons/>
 			<RenderRequests/>
 		</div>
 	)
