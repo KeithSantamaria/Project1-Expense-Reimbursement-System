@@ -32,7 +32,11 @@ public class UserDao{
 		this.database = mongoClient.getDatabase("project1");
 		this.collection = database.getCollection("users");
 	}
-
+	public UserDao(String databaseString){
+		this.mongoClient = MongoClients.create();
+		this.database = mongoClient.getDatabase(databaseString);
+		this.collection = database.getCollection("users");
+	}
 	public MongoClient getMongoClient() {
 		return mongoClient;
 	}

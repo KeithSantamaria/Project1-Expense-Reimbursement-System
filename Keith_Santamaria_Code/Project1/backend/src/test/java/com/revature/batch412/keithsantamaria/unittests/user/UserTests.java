@@ -36,8 +36,7 @@ public class UserTests {
 
 	@Before
 	public void beforeEachTest(){
-		testDao = new UserDao();
-		testDao.setDatabase(testDao.getMongoClient().getDatabase("unittest1"));
+		testDao = new UserDao("unittest1");
 	}
 
 	@Test
@@ -87,7 +86,7 @@ public class UserTests {
 
 	@Test
 	public void shouldReadAllUsers(){
-		int expectSize = 3;
+		int expectSize = 2;
 		JSONArray test = this.testDao.readAll();
 		System.out.println(test);
 		Assert.assertEquals("Expected 2 users", expectSize, test.size());

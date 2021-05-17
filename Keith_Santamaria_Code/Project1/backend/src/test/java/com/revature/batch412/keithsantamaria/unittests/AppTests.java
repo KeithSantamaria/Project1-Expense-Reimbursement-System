@@ -86,4 +86,8 @@ public class AppTests {
 	}
 
 
+	@Test
+	public void shouldRun(){
+		this.testApp.run();
+	}
 }

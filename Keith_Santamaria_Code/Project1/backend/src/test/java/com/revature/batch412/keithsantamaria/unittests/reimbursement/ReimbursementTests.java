@@ -18,14 +18,16 @@ import java.util.List;
 
 public class ReimbursementTests {
 	Reimbursement test;
-	ReimbursementDao testDao;
+	ReimbursementDao testDao = new ReimbursementDao("unittest1");
 	long collectionSize;
+
 
 	@BeforeClass
 	public static void beforeAllTests(){
 		Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
 		mongoLogger.setLevel(Level.FATAL);
 		BasicConfigurator.configure();
+
 	}
 
 	@Before
@@ -39,8 +41,7 @@ public class ReimbursementTests {
 			ReimbursementStatuses.PENDING,
 			""
 		);
-		testDao = new ReimbursementDao();
-		testDao.setDatabase(testDao.getMongoClient().getDatabase("unittest1"));
+
 		collectionSize = testDao.getCollection().countDocuments();
 	}
 

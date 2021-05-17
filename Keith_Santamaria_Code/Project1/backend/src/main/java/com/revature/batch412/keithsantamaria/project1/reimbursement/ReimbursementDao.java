@@ -34,6 +34,13 @@ public class ReimbursementDao {
 		this.currentReimbursements = new ArrayList<>();
 	}
 
+	public ReimbursementDao(String databaseString){
+		this.mongoClient = MongoClients.create();
+		this.database = mongoClient.getDatabase(databaseString);
+		this.collection = database.getCollection("reimbursements");
+		this.currentReimbursements = new ArrayList<>();
+	}
+
 	public MongoClient getMongoClient() {
 		return mongoClient;
 	}
