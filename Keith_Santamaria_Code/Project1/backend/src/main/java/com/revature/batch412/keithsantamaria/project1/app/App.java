@@ -29,6 +29,16 @@ public class App {
 		this.currentUser = currentUser;
 	}
 
+	/**
+	 * @name login
+	 * @author keith santamaria
+	 * @param username
+	 * @param password
+	 * @param role
+	 * @return
+	 *
+	 * This querys the db for the unique user, and returns true if found
+	 */
 	public boolean login(String username, String password, UserRoles role){
 		UserDao userDao = new UserDao();
 		Document userDoc = userDao.read( username, password, role);
@@ -39,6 +49,13 @@ public class App {
 		return false;
 	}
 
+	/**
+	 * @name parseReceivedData
+	 * @author keith santamaria
+	 * @param body
+	 * @return
+	 * This takes the raw string input from a POST requests and makes JSONObject
+	 */
 	public static JSONObject parseReceivedData(String body) {
 		JSONParser parser = new JSONParser();
 		JSONObject jsonObject = null;

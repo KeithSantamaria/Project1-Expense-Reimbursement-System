@@ -181,17 +181,22 @@ const ManagerHomePage = (props) => {
 							</tr>
 							{
 								resolvedRequests.map((request,count) => {
-									return(
-										<tr key = {request._id.$oid}>
-											<td>{count + 1}</td>
-											<td>{request._id.$oid}</td>
-											<td>{request.username}</td>
-											<td>{request.reason}</td>
-											<td>${request.amount}</td>
-											<td>{request.currentStatus}</td>
-											<td>{request.approvedByName}</td>
-										</tr>
-									)
+									if (filter === request.ownerId.$oid || filter === ""){
+										return(
+											<tr key = {request._id.$oid}>
+												<td>{count + 1}</td>
+												<td>{request._id.$oid}</td>
+												<td>{request.username}</td>
+												<td>{request.reason}</td>
+												<td>${request.amount}</td>
+												<td>{request.currentStatus}</td>
+												<td>{request.approvedByName}</td>
+											</tr>
+										)
+									}
+									else{
+										return null;
+									}
 								})
 							}
 						</tbody>
