@@ -53,6 +53,12 @@ public class UserDao{
 		this.user = user;
 	}
 
+	/**
+	 * @name convertDocToUser
+	 * @author Keith Santamaria
+	 * @return
+	 * this returns takes a bson doc from the db to a user we can use in server
+	 */
 	public User convertDocToUser(){
 		if(this.user == null){
 			return null;
@@ -72,6 +78,16 @@ public class UserDao{
 		return convertedUser;
 	}
 
+
+	/**
+	 * @name read
+	 * @author Keith Santamaria
+	 * @param username
+	 * @param password
+	 * @param role
+	 * @return
+	 * this reads a single user
+	 */
 	public Document read(String username, String password, UserRoles role) {
 		String message = "Fetching user: " + username + " with password: " + password;
 		this.rootLogger.info(message);
@@ -85,6 +101,12 @@ public class UserDao{
 		return this.user;
 	}
 
+	/**
+	 * @name readAll
+	 * @author Keith santamaria
+	 * @return
+	 * This reads all users that exist
+	 */
 	public JSONArray readAll(){
 		List<Document> docs = new ArrayList<>();
 		this.rootLogger.info("Fetching all employees");

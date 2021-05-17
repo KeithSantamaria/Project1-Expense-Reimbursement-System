@@ -57,6 +57,12 @@ public class ReimbursementDao {
 		return currentReimbursements;
 	}
 
+	/**
+	 * @name convertDocsToReimbursement
+	 * @author Keith Santamaria
+	 * @return
+	 * takes the docs from db and makes into a usbale reimbursement for server
+	 */
 	public List<JSONObject> convertDocsToReimbursement(){
 		List<JSONObject> reimbursements = new ArrayList<>();
 		for (int i = 0; i < this.currentReimbursements.size(); i++) {
@@ -67,6 +73,13 @@ public class ReimbursementDao {
 		return reimbursements;
 	}
 
+	/**
+	 * @name addReimbursement
+	 * @author Keith Santamaria
+	 * @return
+	 * this writes a reimbursement to the db
+	 * @param reimbursement
+	 */
 	public void addReimbursement(Reimbursement reimbursement) {
 		Document doc;
 		this.rootLogger.info("Writing new reimbursement " + reimbursement.get_id());
@@ -81,6 +94,15 @@ public class ReimbursementDao {
 
 	}
 
+	/**
+	 * @name readAllEmployee
+	 * @author Keith Santamaria
+	 * @param ownerId
+	 * @param username
+	 * @param statuses
+	 * @return
+	 * this will get all the reimbursements from an employee with a certain status
+	 */
 	public List<JSONObject> readAllEmployee( ObjectId ownerId, String username, ReimbursementStatuses statuses){
 		this.currentReimbursements.clear();
 		String message = "Fetching all reimbursements for employee: " + ownerId.toString();
@@ -116,6 +138,13 @@ public class ReimbursementDao {
 		return requests;
 	}
 
+	/**
+	 * @name readAll
+	 * @author Keith Santamaria
+	 * @param status
+	 * @return
+	 * This grabs every reimbursement from the db that contains a certain status
+	 */
 	public List<JSONObject> readAll(ReimbursementStatuses status){
 		this.currentReimbursements.clear();
 		String message = "Fetching all " + status.toString().toLowerCase(Locale.ROOT) +  " Reimbursements";
@@ -137,6 +166,15 @@ public class ReimbursementDao {
 		return requests;
 	}
 
+	/**
+	 * @name updateStatus
+	 * @author Keith Santamaria
+	 * @param id
+	 * @param status
+	 * @param approvedBy
+	 * @return
+	 *
+	 */
 	public  JSONObject updateStatus(ObjectId id,ReimbursementStatuses status, String approvedBy){
 		this.rootLogger.info("updating request: id- " + id.toString() + " to status - " + status.toString());
 		this.currentReimbursements.clear();

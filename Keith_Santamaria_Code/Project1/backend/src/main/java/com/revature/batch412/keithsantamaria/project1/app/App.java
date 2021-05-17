@@ -67,6 +67,12 @@ public class App {
 		return jsonObject;
 	}
 
+	/**
+	 * @name packageCurrentUser
+	 * @author keith santamaria
+	 * @return
+	 * this takes the current user and constructs a usable JSON
+	 */
 	public JSONObject packageCurrentUser(){
 		rootLogger.info("Sending in user info, result : " +
 			"_id  " + this.currentUser.get_id() +
@@ -83,12 +89,26 @@ public class App {
 		return jsonToSend;
 	}
 
+	/**
+	 * @name packageFailedLogin
+	 * @author keith santamaria
+	 * @return
+	 * this returns a json to let client know login fail
+	 */
+
 	public JSONObject packageFailedLogin(){
 		JSONObject jsonToSend = new JSONObject();
 		jsonToSend.put("loginStatus", false);
 		return jsonToSend;
 	}
 
+	/**
+	 * @name packageNewReimbursement
+	 * @author keith santamaria
+	 * @param clientInput
+	 * @return
+	 *  This takes user input and makes it into a Reimbursement object to write to db
+	 */
 	public Reimbursement packageNewReimbursement( JSONObject clientInput){
 		String reason = clientInput.get("reason").toString();
 		int amount = Integer.parseInt( clientInput.get("amount").toString() );
@@ -105,6 +125,13 @@ public class App {
 		);
 		return newReim;
 	}
+
+	/**
+	 * @name run
+	 * @author keith santamaria
+	 * @return
+	 * runs the server with a series of posts and how to handle them
+	 */
 
 	public void run() {
 		Javalin myApp = Javalin.create(config -> {
