@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  app:
+    container_name: web_application
+    build: .
+    ports:
+    - "8080:8080"
+    links:
+      - mongodb
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://icecream.user:p%40$$w0rd123!@mongodb/
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=icecreams
+      - SPRING_DATA_MONGODB_DATABASE=icecreams
+  mongodb:
+    container_name: mongo_server
+    image: mongo
+    ports:
+    - "27027:27017"
+  redis:
+    image: redis
