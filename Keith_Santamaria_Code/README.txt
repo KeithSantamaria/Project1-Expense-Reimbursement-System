@@ -1,1 +1,0 @@
-The follow directories are the projects Keith Santamaria did during his revature training
