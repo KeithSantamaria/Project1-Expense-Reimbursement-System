@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="shouldLoginTest" type="JUnit" factoryName="JUnit">
+    <module name="Project1.test" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+    <option name="PACKAGE_NAME" value="com.revature.batch412.keithsantamaria.unittests" />
+    <option name="MAIN_CLASS_NAME" value="com.revature.batch412.keithsantamaria.unittests.AppTests" />
+    <option name="METHOD_NAME" value="shouldLogin" />
+    <option name="TEST_OBJECT" value="method" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
