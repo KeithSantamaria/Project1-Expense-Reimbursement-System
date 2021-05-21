@@ -1,2 +1,0 @@
-2020-11-11 15:57:40,451 ERROR LoggingMain [main] Couldn't perform action 'WITHDRAW' because authentication status is: 'FALSE'
-2020-11-11 15:57:40,461 INFO LoggingMain [main] rootLogger can log at 'info' and higher because its logging level is: INFO

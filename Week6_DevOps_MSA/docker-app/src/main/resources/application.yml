@@ -1,9 +1,0 @@
-spring:
-  data:
-    mongodb:
-      authentication-database: icecreams
-      username: icecream.user
-      password: p@$$20rd123!
-      host: mongodb
-      port: 27017
-      database: icecreams
